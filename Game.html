@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+	<body>
+		<p id="title" >You are in a forest with no equipment, you decide to break off branches, thinking they might be useful</p>
+		<!-- <button type="button" id="addBranch" style="display:block" onClick="update('addBranch')">Break off a branch</button> -->
+		<button type="button" id="makeCampfire" style="display:none" onClick="update('makeCampfire')">Make a campfire (10 Branches)</button>
+		<button type="button" id="lightCampfire" style="display:none" onClick="update('lightCampfire')">Try and light the campfire (3 Branches)</button>
+		<button type="button" id="makeAxe1" style="display:none" onClick="update('makeAxe1')">Try to create a makeshift axe (15 Branches)</button>
+		<button type="button" id="addWood1" style="display:none" onClick="update('addWood1')">Chop down a tree (5 Branches)</button>
+		<button type="button" id="addWood2" style="display:none" onClick="update('addWood2')">Chop down a tree (3 Branches)</button>
+		<button type="button" id="buildShack" style="display:none" onClick="update('buildShack')">Build a basic shack (4 Logs and 15 Branches)</button>
+		<button type="button" id="buildWorkbench" style="display:none" onClick="update('buildWorkbench')">Build a basic workbench (5 Logs and 10 Branches)</button>
+		<button type="button" id="makeAxe2" style="display:none" onClick="update('makeAxe2')">Create a basic axe (2 Wood and 5 Branches)</button>
+		<button type="button" id="makePick" style="display:none" onClick="update('makePick')">Make basic pickaxe (3 Logs and 10 Branches)</button>
+		<button type="button" id="buildMineEntrance" style="display:none" onClick="update('buildMineEntrance')">Build Mine Entrance (9 Logs)</button>
+		<button type="button" id="mine1" style="display:none" onClick="update('mine1')">Mine at the surface (1 Log)</button>
+		
+		<br>
+		<p id="branch" style="display:inline"> </p> <br>
+		<p id="wood" style="display:inline"> </p> <br>
+		<p id="stone" style="display:inline"></p> <br>
+		<br>
+		<p id="campfire" style="display:inline" > </p> <br>
+		<p id="axe" style="display:inline" > </p> <br>
+		<p id="shack" style="display:inline" > </p> <br>
+		<p id="workbench" style="display:inline" > </p> <br>
+		<p id="pick" style="display:inline" > </p> <br>
+		<p id="mine" style="display:inline" > </p> <br>
+
+		<script>
+			var branchAmount=0;
+			var branchWrite=document.getElementById("branch");
+			var campfireWrite=document.getElementById("campfire");
+			var campfireStatus=0;
+			var axeWrite=document.getElementById("axe");
+			var axeStatus=0;
+			var woodWrite=document.getElementById("wood");
+			var woodAmount=0;
+			var hadWood=false;
+			var shackStatus=0;
+			var shackWrite=document.getElementById("shack");
+			var workbenchStatus=0;
+			var workbenchWrite=document.getElementById("workbench");
+			var pickStatus=0;
+			var pickWrite=document.getElementById("pick");
+			var mineStatus=0;
+			var mineWrite=document.getElementById("mine");
+			var stoneAmount=0;
+			var stoneWrite=document.getElementById("stone");
+			var hadStone=false;
+			var randomNumber=0;
+			var updateEvent="";
+			setInterval("update('addBranch')", 1000);
+			function update(updateEvent)
+			{
+				if (updateEvent=="addBranch")
+				{
+					branchAmount=branchAmount+1;
+					//branchString.innerHTML="You have "+ branchAmount +" branches";
+					checkAll.call();
+				}
+				if (updateEvent=="makeCampfire")
+				{
+					campfireStatus=1;
+					title.innerHTML="You have built a campfire, but it is useless unless lit";
+					branchAmount=branchAmount-10;
+					campfireWrite.innerHTML="You have an unlit campfire";
+					checkAll.call();
+					
+				}
+				if (updateEvent=="lightCampfire")
+				{
+					branchAmount=branchAmount-3;
+					if (Math.random()<0.3)
+					{
+						campfireStatus=2;
+						title.innerHTML="You managed to light the campfire";
+						campfireWrite.innerHTML="You have a lit campfire";
+					}
+					else
+					{
+						title.innerHTML="You failed to light the campfire";
+					}
+					checkAll.call();
+				}
+				if (updateEvent=="makeAxe1")
+				{
+					branchAmount=branchAmount-15;
+					axeWrite.innerHTML="You have a makeshift axe (Requires 5 branches per log to repair)";
+					title.innerHTML="You have managed to create a makeshift axe from branches, however it requires constant repairing";
+					axeStatus=1;
+					checkAll.call();
+				}
+				if (updateEvent=="addWood1")
+				{
+					woodAmount=woodAmount+1;
+					branchAmount=branchAmount-5;
+					checkAll.call();
+				}
+				if (updateEvent=="addWood2")
+				{
+					woodAmount=woodAmount+1;
+					branchAmount=branchAmount-3;
+					checkAll.call();
+				}
+				if (updateEvent=="buildShack")
+				{
+					shackStatus=1;
+					title.innerHTML="Youve managed to build a basic shack";
+					branchAmount=branchAmount-15;
+					woodAmount=woodAmount-4;
+					shackWrite.innerHTML="You have a basic shack";
+					checkAll.call();
+				}
+				if (updateEvent=="buildWorkbench")
+				{
+					workbenchStatus=1;
+					branchAmount=branchAmount-10;
+					woodAmount=woodAmount-5;
+					title.innerHTML="You managed to create a basic workbench to craft better tools";
+					workbenchWrite.innerHTML="You have a basic workbench";
+					checkAll.call();
+				}
+				if (updateEvent=="makeAxe2")
+				{
+					branchAmount=branchAmount-5;
+					woodAmount=woodAmount-2;
+					title.innerHTML="You managed to make a more reliable axe by carving it out of solid wood";
+					axeWrite.innerHTML="You have a basic axe (Requires 3 branches per log to repair)";
+					axeStatus=2;
+					checkAll.call();
+				}
+				if (updateEvent=="makePick")
+				{
+					pickStatus=1;
+					branchAmount=branchAmount-10;
+					woodAmount=woodAmount-3;
+					pick.innerHTML="You have a basic pickaxe";
+					title.innerHTML="You crafted a basic pickaxe";
+					checkAll.call();
+				}
+				if (updateEvent=="buildMineEntrance")
+				{
+					woodAmount=woodAmount-9;
+					mineStatus=1;
+					mineWrite.innerHTML="You have a mine entrance, but it doesnt go deeper than the surface";
+					title.innerHTML="You have built a mine entrance so you can mine for more advanced materials";
+					checkAll.call();
+				}
+				if (updateEvent=="mine1")
+				{
+					woodAmount=woodAmount-1;
+					stoneAmount=stoneAmount+5;
+				}
+			}
+			function checkAll()
+			{
+				//Update amount of resources
+				branchWrite.innerHTML="You have "+ branchAmount +" branches";
+				if (woodAmount>=1)
+				{
+					hadWood=true;
+				}
+				if (hadWood==true)
+				{
+					woodWrite.innerHTML="You have "+ woodAmount +" logs";
+				}
+				if (stoneAmount>=1)
+				{
+					hadStone=true;
+				}
+				if (hadStone==true)
+				{
+					stoneWrite.innerHTML="You have "+ stoneAmount +" stones";
+				}
+				//Create campfire
+				if (branchAmount>=10 && campfireStatus==0)
+				{
+					document.getElementById("makeCampfire").style.display="block";
+				}
+				else
+				{
+					document.getElementById("makeCampfire").style.display="none";
+				}
+				
+				//Light campfire
+				if (branchAmount>=3 && campfireStatus==1)
+				{
+					document.getElementById("lightCampfire").style.display="block";
+				}
+				else
+				{
+					document.getElementById("lightCampfire").style.display="none";
+				}
+				
+				//Create basic axe
+				if (branchAmount>=15 && campfireStatus==2 && axeStatus==0)
+				{
+					document.getElementById("makeAxe1").style.display="block";
+				}
+				else
+				{
+					document.getElementById("makeAxe1").style.display="none";
+				}
+				
+				//Add wood
+				if (branchAmount>=5 && axeStatus==1)
+				{
+					document.getElementById("addWood1").style.display="block";
+					document.getElementById("addWood1").disabled=false;
+				}
+				else
+				{
+					document.getElementById("addWood1").disabled=true;
+				}
+				if (branchAmount>=3 && axeStatus==2)
+				{
+					document.getElementById("addWood1").style.display="none";
+					document.getElementById("addWood2").style.display="block";
+					document.getElementById("addWood2").disabled=false;
+				}
+				else
+				{
+					document.getElementById("addWood2").disabled=true;
+				}
+				
+				//Build basic shack
+				if (branchAmount>=15 && woodAmount>=4 && shackStatus==0)
+				{
+					document.getElementById("buildShack").style.display="block";
+				}
+				else
+				{
+					document.getElementById("buildShack").style.display="none";
+				}
+				
+				//Make workbench
+				if (branchAmount>=10 && woodAmount>=5 && shackStatus>=1 && workbenchStatus==0)
+				{
+					document.getElementById("buildWorkbench").style.display="block";
+				}
+				else
+				{
+					document.getElementById("buildWorkbench").style.display="none";
+				}
+				
+				//Make axe
+				if (branchAmount>=5 && woodAmount>=2 && workbenchStatus>=1 && axeStatus==1)
+				{
+					document.getElementById("makeAxe2").style.display="block";
+				}
+				else
+				{
+					document.getElementById("makeAxe2").style.display="none";
+				}
+				//Make pick
+				if (branchAmount>=10 && woodAmount>=3 && workbenchStatus>=1 && pickStatus==0)
+				{
+					document.getElementById("makePick").style.display="block";
+				}
+				else
+				{
+					document.getElementById("makePick").style.display="none";
+				}
+				
+				//Make mine entrance
+				if (woodAmount>=9 && pickStatus==1 && mineStatus==0)
+				{
+					document.getElementById("buildMineEntrance").style.display="block";
+				}
+				else
+				{
+					document.getElementById("buildMineEntrance").style.display="none";
+				}
+				
+				//Mine level 1
+				if (woodAmount>=1 && mineStatus>=1)
+				{
+					document.getElementById("mine1").style.display="block";
+				}
+				else
+				{
+					document.getElementById("mine1").style.display="none";
+				}
+			}
+		</script>
+	</body>
+</html>
